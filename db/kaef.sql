@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jan 09, 2024 at 05:35 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: 127.0.0.1:3307
+-- Generation Time: Jan 11, 2024 at 05:53 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,32 @@ SET time_zone = "+00:00";
 --
 -- Database: `kaef`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jadwal`
+--
+
+CREATE TABLE `jadwal` (
+  `id_jadwal` int(11) NOT NULL,
+  `jam_awal` time NOT NULL,
+  `jam_akhir` time NOT NULL,
+  `tanggal` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jadwal_history`
+--
+
+CREATE TABLE `jadwal_history` (
+  `id_history` int(11) NOT NULL,
+  `id_jadwal` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `created_date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -50,7 +76,7 @@ INSERT INTO `jam` (`id_jam`, `jam`, `mulai`, `akhir`) VALUES
 --
 
 CREATE TABLE `pegawai` (
-  `id` int(11) NOT NULL,
+  `id_pegawai` int(11) NOT NULL,
   `nama` varchar(30) NOT NULL,
   `alamat` varchar(200) NOT NULL,
   `jk` varchar(30) NOT NULL
@@ -60,7 +86,7 @@ CREATE TABLE `pegawai` (
 -- Dumping data for table `pegawai`
 --
 
-INSERT INTO `pegawai` (`id`, `nama`, `alamat`, `jk`) VALUES
+INSERT INTO `pegawai` (`id_pegawai`, `nama`, `alamat`, `jk`) VALUES
 (1, 'Az Zumar Nurwahid', 'Karawang', 'L'),
 (2, 'Ashri Lestari', 'Karawang', 'P'),
 (3, 'Rulli Septiani', 'Karawang', 'P'),
@@ -71,9 +97,28 @@ INSERT INTO `pegawai` (`id`, `nama`, `alamat`, `jk`) VALUES
 (8, 'AGUNG BUDAYANA', 'Karawang', 'L'),
 (9, 'AYU ASSYIFA', 'Karawang', 'P');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `id_user` int(11) NOT NULL,
+  `id_pegawai` int(11) NOT NULL,
+  `username` varchar(150) NOT NULL,
+  `password` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `jadwal_history`
+--
+ALTER TABLE `jadwal_history`
+  ADD PRIMARY KEY (`id_history`);
 
 --
 -- Indexes for table `jam`
@@ -85,11 +130,24 @@ ALTER TABLE `jam`
 -- Indexes for table `pegawai`
 --
 ALTER TABLE `pegawai`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id_pegawai`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id_user`),
+  ADD KEY `id_pegawai` (`id_pegawai`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `jadwal_history`
+--
+ALTER TABLE `jadwal_history`
+  MODIFY `id_history` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `jam`
@@ -101,7 +159,23 @@ ALTER TABLE `jam`
 -- AUTO_INCREMENT for table `pegawai`
 --
 ALTER TABLE `pegawai`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_pegawai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `user`
+--
+ALTER TABLE `user`
+  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`id_pegawai`) REFERENCES `pegawai` (`id_pegawai`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
