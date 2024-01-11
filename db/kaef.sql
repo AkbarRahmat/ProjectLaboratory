@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Jan 11, 2024 at 05:53 AM
+-- Generation Time: Jan 11, 2024 at 10:01 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -33,6 +33,13 @@ CREATE TABLE `jadwal` (
   `jam_akhir` time NOT NULL,
   `tanggal` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `jadwal`
+--
+
+INSERT INTO `jadwal` (`id_jadwal`, `jam_awal`, `jam_akhir`, `tanggal`) VALUES
+(0, '06:30:00', '13:30:00', '2024-01-11');
 
 -- --------------------------------------------------------
 
@@ -79,23 +86,24 @@ CREATE TABLE `pegawai` (
   `id_pegawai` int(11) NOT NULL,
   `nama` varchar(30) NOT NULL,
   `alamat` varchar(200) NOT NULL,
-  `jk` varchar(30) NOT NULL
+  `jenis_kelamin` enum('Laki-laki','Perempuan') NOT NULL,
+  `status_deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `pegawai`
 --
 
-INSERT INTO `pegawai` (`id_pegawai`, `nama`, `alamat`, `jk`) VALUES
-(1, 'Az Zumar Nurwahid', 'Karawang', 'L'),
-(2, 'Ashri Lestari', 'Karawang', 'P'),
-(3, 'Rulli Septiani', 'Karawang', 'P'),
-(4, 'Iim Rohimah', 'Karawang', 'P'),
-(5, 'Winda', 'Karawang', 'P'),
-(6, 'AGUSTINA', 'Karawang', 'P'),
-(7, 'NOVARIANY', 'Karawang', 'P'),
-(8, 'AGUNG BUDAYANA', 'Karawang', 'L'),
-(9, 'AYU ASSYIFA', 'Karawang', 'P');
+INSERT INTO `pegawai` (`id_pegawai`, `nama`, `alamat`, `jenis_kelamin`, `status_deleted`) VALUES
+(1, 'Az Zumar Nurwahid', 'Karawang', 'Laki-laki', 0),
+(2, 'Ashri Lestari', 'Karawang', 'Perempuan', 0),
+(3, 'Rulli Septiani', 'Karawang', 'Perempuan', 0),
+(4, 'Iim Rohimah', 'Karawang', 'Perempuan', 0),
+(5, 'Winda', 'Karawang', 'Perempuan', 0),
+(6, 'AGUSTINA', 'Karawang', 'Laki-laki', 0),
+(7, 'NOVARIANY', 'Karawang', 'Perempuan', 0),
+(8, 'AGUNG BUDAYANA', 'Karawang', 'Laki-laki', 0),
+(9, 'AYU ASSYIFA', 'Karawang', 'Perempuan', 0);
 
 -- --------------------------------------------------------
 
@@ -107,8 +115,17 @@ CREATE TABLE `user` (
   `id_user` int(11) NOT NULL,
   `id_pegawai` int(11) NOT NULL,
   `username` varchar(150) NOT NULL,
-  `password` varchar(150) NOT NULL
+  `password` varchar(150) NOT NULL,
+  `role` enum('user','admin','admin_super') NOT NULL DEFAULT 'user',
+  `status_deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id_user`, `id_pegawai`, `username`, `password`, `role`, `status_deleted`) VALUES
+(1, 1, 'zumar', '1234', 'user', 0);
 
 --
 -- Indexes for dumped tables
@@ -165,7 +182,7 @@ ALTER TABLE `pegawai`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
