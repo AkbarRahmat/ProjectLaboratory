@@ -38,15 +38,26 @@
                     <th scope="col">Hari</th>
                     <th scope="col">Pegawai</th>
                     <th scope="col">Shift</th>
+                    <th scope="col">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <?php
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                      <button sr>
 
-                    // $no = 0;
+                      </button>
+                    </td>
+                  </tr>
+                  <?php
                     // while($row=mysqli_fetch_array($QueryGetListUser)){
-                    //   $no++;
-                    //   echo "<tr>";
+                    
+                    /*   echo "<tr>";
+                    
                     //     echo "<td>".$no."</td>";
                     //     echo "<td>".$row['nama']."</td>";
                     //     echo "<td>".$row['alamat']."</td>";

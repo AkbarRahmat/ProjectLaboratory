@@ -1,16 +1,16 @@
 <?php
 session_start();
-require_once "../pages/core/connection.php";
+require_once "../config/db.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
 
-    $username = mysqli_real_escape_string($koneksi, $username);
-    $password = mysqli_real_escape_string($koneksi, $password);
+    $username = mysqli_real_escape_string($db_connect, $username);
+    $password = mysqli_real_escape_string($db_connect, $password);
 
-    $query = "SELECT * FROM `pegawai` WHERE nama = '$username' AND password = '$password'";
-    $result = $koneksi->query($query);
+    $query = "SELECT * FROM `user` WHERE username = '$username' AND password = '$password'";
+    $result = $db_connect->query($query);
 
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
@@ -28,5 +28,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-$koneksi->close();
+$db_connect->close();
 ?>

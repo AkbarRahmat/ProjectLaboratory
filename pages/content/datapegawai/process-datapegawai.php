@@ -13,7 +13,7 @@ if(isset($_POST['tambah'])) {
 
     $sql = "INSERT INTO pegawai (nama, alamat, jk) VALUES ('$nama', '$alamat', '$jk')";
 
-    $query = mysqli_query($koneksi, $sql);
+    $query = mysqli_query($db_connect, $sql);
 
 
     if($query) {
@@ -35,7 +35,7 @@ if(isset($_POST['edit_submit'])){
 
     $query = "UPDATE pegawai SET nama='$nama', alamat='$alamat', jk='$jk' WHERE id='$id'";
 
-    if(mysqli_query($koneksi, $query)){
+    if(mysqli_query($db_connect, $query)){
         $_SESSION['message'] = "Data berhasil diedit!";
         header("location: datapegawai.php");
     } else {
@@ -45,11 +45,11 @@ if(isset($_POST['edit_submit'])){
 }
 
     // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> GET LIST DATA TMU <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	$QueryGetListUser = mysqli_query($koneksi, "SELECT * FROM pegawai");
+	$QueryGetListUser = mysqli_query($db_connect, "SELECT * FROM pegawai");
     
     function query($query) {
-        global $koneksi;
-        $result = mysqli_query($koneksi, $query);
+        global $db_connect;
+        $result = mysqli_query($db_connect, $query);
         $rows = [];
         while ( $row = mysqli_fetch_assoc($result) ) {
             $rows[] = $row;
@@ -58,7 +58,7 @@ if(isset($_POST['edit_submit'])){
     }
     
     function tambah($data) {
-        global $koneksi;
+        global $db_connect;
             $nama = htmlspecialchars($data["nama"]);
             $alamat = htmlspecialchars($data["alamat"]);
             $jk = ($data["jk"]);
@@ -67,16 +67,16 @@ if(isset($_POST['edit_submit'])){
         VALUES
         ('', '$nama', '$alamat', '$jk')
         ";
-    mysqli_query($koneksi, $query);
+    mysqli_query($db_connect, $query);
     
-    return mysqli_affected_rows($koneksi);
+    return mysqli_affected_rows($db_connect);
     }
     
     function hapus($id) {
-        global $koneksi;
-        mysqli_query($koneksi, "DELETE FROM pegawai WHERE id = $id");
+        global $db_connect;
+        mysqli_query($db_connect, "DELETE FROM pegawai WHERE id = $id");
     
-        return mysqli_affected_rows($koneksi);
+        return mysqli_affected_rows($db_connect);
     }
 
     
