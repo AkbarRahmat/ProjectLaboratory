@@ -195,7 +195,7 @@ $userList = tableData();
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-primary" name="edit-data">Simpan</button>
+                <button type="submit" class="btn btn-primary" name="add-data">Simpan</button>
               </div>
             </form>
           </div>
