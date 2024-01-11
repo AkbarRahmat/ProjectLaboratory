@@ -1,6 +1,6 @@
 <?php
 
-include "../../core/connection.php";
+include "../../../config/db.php";
 
 if(isset($_POST['tambah'])) {
 

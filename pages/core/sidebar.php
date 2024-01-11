@@ -31,7 +31,7 @@
       <li class="nav-heading">Pages</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="../lihatjadwal/jadwal">
+        <a class="nav-link collapsed" href="../../content/lihatjadwal/jadwal.php">
           <i class="bi bi-calendar"></i>
           <span>Jadwal</span>
         </a>

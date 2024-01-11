@@ -3,14 +3,14 @@
   $ds = DIRECTORY_SEPARATOR;
   $base_dir = realpath(dirname(__FILE__)  . $ds . '..' . $ds . '..' . $ds . '..') . $ds;
   require_once("{$base_dir}pages{$ds}core{$ds}header.php");
-  require_once("{$base_dir}pages{$ds}content{$ds}datapegawai{$ds}process-datapegawai.php");
+  // require_once("{$base_dir}pages{$ds}content{$ds}datapegawai{$ds}process-datapegawai.php");
 
 ?>
   
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Master User</h1>
+      <h1>Master Admin</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="../dashboard/dashboard.php">Home</a></li>
@@ -25,7 +25,7 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Data Tabel User</h5>
+              <h5 class="card-title">Jadwal jam kerja</h5>
               <p>
                 <a href="add-datapegawai.php" type="button" class="btn btn-primary"> Tambah Data</a>
               </p>
@@ -38,34 +38,23 @@
                     <th scope="col">Hari</th>
                     <th scope="col">Pegawai</th>
                     <th scope="col">Shift</th>
-                    <th scope="col">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                      <button sr>
-
-                      </button>
-                    </td>
-                  </tr>
                   <?php
-                    // while($row=mysqli_fetch_array($QueryGetListUser)){
-                    
-                    /*   echo "<tr>";
-                    
-                    //     echo "<td>".$no."</td>";
-                    //     echo "<td>".$row['nama']."</td>";
-                    //     echo "<td>".$row['alamat']."</td>";
-                    //     echo "<td>".$row['jk']."</td>";
-                    //     echo "<td><a href=\"edit-datapegawai.php?id=" . $row["id"] . "\" class='btn btn-warning rounded-pill '>Edit</a>
-                    //     <a href=\"delete-datapegawai.php?id=" . $row["id"] . "\"  class='btn btn-danger rounded-pill' >Hapus</a></td>";
-                    //   echo "</tr>";
-                    // }
+
+                    $no = 0;
+                    while($row=mysqli_fetch_array($QueryGetListUser)){
+                      $no++;
+                      echo "<tr>";
+                        echo "<td>".$no."</td>";
+                        echo "<td>".$row['nama']."</td>";
+                        echo "<td>".$row['alamat']."</td>";
+                        echo "<td>".$row['jk']."</td>";
+                        echo "<td><a href=\"edit-datapegawai.php?id=" . $row["id"] . "\" class='btn btn-warning rounded-pill '>Edit</a>
+                        <a href=\"delete-datapegawai.php?id=" . $row["id"] . "\"  class='btn btn-danger rounded-pill' >Hapus</a></td>";
+                      echo "</tr>";
+                    }
                   ?>
                 </tbody>
               </table>
