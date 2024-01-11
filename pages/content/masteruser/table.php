@@ -2,7 +2,6 @@
 $ds = DIRECTORY_SEPARATOR;
 $base_dir = realpath(dirname(__FILE__)  . $ds . '..' . $ds . '..' . $ds . '..') . $ds;
 require_once("{$base_dir}config{$ds}db.php");
-require_once("{$base_dir}pages{$ds}core{$ds}header.php");
 require_once("{$base_dir}backend{$ds}masteruser{$ds}table.php");
 require_once("{$base_dir}backend{$ds}masteruser{$ds}action.php");
 
@@ -19,13 +18,23 @@ elseif (isset($_POST['delete-data'])) {
 
 if ($action_state) {
   header("Location: table.php");
+  exit;
 }
 
 $userList = tableData();
 ?>
-  
-  <main id="main" class="main">
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <?php require_once("{$base_dir}pages{$ds}core{$ds}header.php");?>
+
+  <main id="main" class="main">
     <div class="pagetitle">
       <h1>Master User</h1>
       <nav>
@@ -57,13 +66,15 @@ $userList = tableData();
                 </thead>
                 <tbody>
                   <?php foreach ($userList as $no => $user) :?>
-                    <td><?= $user['nama'] ?></td>
-                    <td><?= $user['jenis_kelamin'] ?></td>
-                    <td><?= $user['role'] ?></td>
-                    <td>
-                      <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit-data-<?= $no ?>"><i class="bi bi-pen"></i></button>
-                      <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-data-<?= $no ?>"><i class="bi bi-trash"></i></button>
-                    </td>
+                    <tr>
+                      <td><?= $user['nama'] ?></td>
+                      <td><?= $user['jenis_kelamin'] ?></td>
+                      <td><?= $user['role'] ?></td>
+                      <td>
+                        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit-data-<?= $no ?>"><i class="bi bi-pen"></i></button>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-data-<?= $no ?>"><i class="bi bi-trash"></i></button>
+                      </td>
+                    </tr>
                   <?php endforeach; ?>
                 </tbody>
               </table>
@@ -171,7 +182,7 @@ $userList = tableData();
                     </div>
                   </div>
 
-                  <div class="my-1">
+                  <div class="my-1 mt-3">
                     <label for="nama" class="col-form-label">Data Diri:</label>
                     <div class="px-3 border">
                       <div class="form-group">
@@ -204,8 +215,7 @@ $userList = tableData();
     </section>
 
   </main><!-- End #main -->
-
-
-<?php
-  require_once("{$base_dir}pages{$ds}core{$ds}footer.php");
-?> 
+  
+  <?php require_once("{$base_dir}pages{$ds}core{$ds}footer.php");?> 
+</body>
+</html>

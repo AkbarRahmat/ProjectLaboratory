@@ -4,6 +4,9 @@ $action_message = "";
 
 function addUser() {
     global $db_connect, $action_state, $action_message;
+    $nama = $_POST['nama'];
+    $alamat = $_POST['alamat'];
+    $jenis_kelamin = $_POST['jenis_kelamin'];
     $username = $_POST['username'];
     $password = $_POST['password'];
     $role = $_POST['role'];
@@ -20,7 +23,7 @@ function addUser() {
     }
     
     // Insert Petugas
-    $sql = "INSERT INTO pegawai (username, password, role) VALUES ('$username', '$password', '$role');";
+    $sql = "INSERT INTO pegawai (nama, alamat, jenis_kelamin) VALUES ('$nama', '$alamat', '$jenis_kelamin');";
     $query = mysqli_query($db_connect, $sql);
 
     if (!$query || !mysqli_affected_rows($db_connect) > 0) {
