@@ -148,21 +148,49 @@ $userList = tableData();
             </div>
             <form action="" method="POST">
               <div class="modal-body">
-                  <div class="form-group d-none">
-                    <label for="id_user" class="col-form-label"></label>
-                    <input type="hidden" class="form-control" id="id_user" name="id_user" value="<?= $user['id_user'] ?>">
+                  <div class="my-1">
+                    <label for="username" class="col-form-label">Data User:</label>
+                    <div class="px-3 border">
+                      <div class="form-group">
+                        <label for="username" class="col-form-label">Username:</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="password" class="col-form-label">Password:</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="role" class="col-form-label">Role:</label>
+                        <select id="role" name="role" class="form-control">
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                            <option value="admin_super">Admin Super</option>
+                        </select>
+                      </div>
+                      <div class="p-2"></div>
+                    </div>
                   </div>
-                  <div class="form-group">
-                    <label for="username" class="col-form-label">Username:</label>
-                    <input type="text" class="form-control" id="username" name="username" value="<?= $user['username'] ?>" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="password" class="col-form-label">Password:</label>
-                    <input type="password" class="form-control" id="password" name="password" value="<?= $user['password'] ?>" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="role" class="col-form-label">Role:</label>
-                    <input type="text" class="form-control" id="role" name="role" value="<?= $user['role'] ?>" required>
+
+                  <div class="my-1">
+                    <label for="nama" class="col-form-label">Data Diri:</label>
+                    <div class="px-3 border">
+                      <div class="form-group">
+                        <label for="nama" class="col-form-label">Nama:</label>
+                        <input type="text" class="form-control" id="nama" name="nama" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="alamat" class="col-form-label">Alamat:</label>
+                        <input type="text" class="form-control" id="alamat" name="alamat" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="jenis_kelamin" class="col-form-label">Jenis Kelamin:</label>
+                        <select id="jenis_kelamin" name="jenis_kelamin" class="form-control">
+                            <option value="Laki-laki">Laki-laki</option>
+                            <option value="Perempuan">Perempuan</option>
+                        </select>
+                      </div>
+                      <div class="p-2"></div>
+                    </div>
                   </div>
               </div>
               <div class="modal-footer">
