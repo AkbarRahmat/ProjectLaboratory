@@ -1,0 +1,183 @@
+<?php
+$ds = DIRECTORY_SEPARATOR;
+$base_dir = realpath(dirname(__FILE__)  . $ds . '..' . $ds . '..' . $ds . '..') . $ds;
+require_once("{$base_dir}config{$ds}db.php");
+require_once("{$base_dir}pages{$ds}core{$ds}header.php");
+require_once("{$base_dir}backend{$ds}masteruser{$ds}table.php");
+require_once("{$base_dir}backend{$ds}masteruser{$ds}action.php");
+
+// Action
+if (isset($_POST['add-data'])) {
+  addUser();
+}
+elseif (isset($_POST['edit-data'])) {
+  editUser();
+}
+elseif (isset($_POST['delete-data'])) {
+  deleteUser();
+}
+
+if ($action_state) {
+  header("Location: table.php");
+}
+
+$userList = tableData();
+?>
+  
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Master User</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="../dashboard/dashboard.php">Home</a></li>
+          <li class="breadcrumb-item active">Master User</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Data Tabel Pegawai</h5>
+              <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#add-data">Tambah data</button>
+
+              <!-- Table with stripped rows -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th scope="col">Nama</th>
+                    <th scope="col">Jenis Kelamin</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php foreach ($userList as $no => $user) :?>
+                    <td><?= $user['nama'] ?></td>
+                    <td><?= $user['jenis_kelamin'] ?></td>
+                    <td><?= $user['role'] ?></td>
+                    <td>
+                      <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit-data-<?= $no ?>"><i class="bi bi-pen"></i></button>
+                      <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-data-<?= $no ?>"><i class="bi bi-trash"></i></button>
+                    </td>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+              <!-- End Table with stripped rows -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Modal Crud -->
+      <?php foreach ($userList as $no => $user) : ?>
+        <!-- Edit Modal -->
+        <div class="modal fade" id="edit-data-<?= $no ?>" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Edit User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="" method="POST">
+                <div class="modal-body">
+                    <div class="form-group d-none">
+                      <label for="id_user" class="col-form-label"></label>
+                      <input type="hidden" class="form-control" id="id_user" name="id_user" value="<?= $user['id_user'] ?>">
+                    </div>
+                    <div class="form-group">
+                      <label for="username" class="col-form-label">Username:</label>
+                      <input type="text" class="form-control" id="username" name="username" value="<?= $user['username'] ?>" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="password" class="col-form-label">Password:</label>
+                      <input type="password" class="form-control" id="password" name="password" value="<?= $user['password'] ?>" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="role" class="col-form-label">Role:</label>
+                      <input type="text" class="form-control" id="role" name="role" value="<?= $user['role'] ?>" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                  <button type="submit" class="btn btn-primary" name="edit-data">Simpan</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delete Modal -->
+        <div class="modal fade" id="delete-data-<?= $no ?>" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Hapus Alat</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="" method="POST">
+              <div class="modal-body">
+                  <div class="form-group d-none">
+                    <label for="id_user" class="col-form-label"></label>
+                    <input type="hidden" class="form-control" id="id_user" name="id_user" value="<?= $user['id_user'] ?>">
+                  </div>
+              </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                  <button type="submit" class="btn btn-danger" name="delete-data">Hapus</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      <?php endforeach; ?><!-- End Crud Modal -->
+
+      <!-- Add Modal -->
+      <div class="modal fade" id="add-data" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Tambah Pegawai</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="" method="POST">
+              <div class="modal-body">
+                  <div class="form-group d-none">
+                    <label for="id_user" class="col-form-label"></label>
+                    <input type="hidden" class="form-control" id="id_user" name="id_user" value="<?= $user['id_user'] ?>">
+                  </div>
+                  <div class="form-group">
+                    <label for="username" class="col-form-label">Username:</label>
+                    <input type="text" class="form-control" id="username" name="username" value="<?= $user['username'] ?>" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="password" class="col-form-label">Password:</label>
+                    <input type="password" class="form-control" id="password" name="password" value="<?= $user['password'] ?>" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="role" class="col-form-label">Role:</label>
+                    <input type="text" class="form-control" id="role" name="role" value="<?= $user['role'] ?>" required>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary" name="edit-data">Simpan</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div><!-- End Add Modal -->
+    </section>
+
+  </main><!-- End #main -->
+
+
+<?php
+  require_once("{$base_dir}pages{$ds}core{$ds}footer.php");
+?> 
