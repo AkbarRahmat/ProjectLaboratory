@@ -1,9 +1,13 @@
 <?php
 $ds = DIRECTORY_SEPARATOR;
-$base_dir = realpath(dirname(__FILE__)  . $ds . '..' . $ds . '..' . $ds . '..') . $ds;
+$base_dir = realpath(dirname(__FILE__)  . $ds . '..' . $ds . '..') . $ds;
 require_once("{$base_dir}config{$ds}db.php");
+require_once("{$base_dir}backend{$ds}function.php");
 require_once("{$base_dir}backend{$ds}masteruser{$ds}table.php");
 require_once("{$base_dir}backend{$ds}masteruser{$ds}action.php");
+
+// Init
+$sidebar_selected = "masteruser";
 
 // Action
 if (isset($_POST['add-data'])) {
@@ -17,7 +21,7 @@ elseif (isset($_POST['delete-data'])) {
 }
 
 if ($action_state) {
-  header("Location: table.php");
+  header("Location: masteruser.php");
   exit;
 }
 
@@ -112,7 +116,11 @@ $userList = tableData();
                     </div>
                     <div class="form-group">
                       <label for="role" class="col-form-label">Role:</label>
-                      <input type="text" class="form-control" id="role" name="role" value="<?= $user['role'] ?>" required>
+                      <select id="role" name="role" class="form-control">
+                          <option <?= atOption($user['role'], "user") ?>>User</option>
+                          <option <?= atOption($user['role'], "admin") ?>>Admin</option>
+                          <option <?= atOption($user['role'], "admin_super") ?>>Admin Super</option>
+                      </select>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -129,7 +137,7 @@ $userList = tableData();
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Hapus Alat</h5>
+                <h5 class="modal-title">Hapus User</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <form action="" method="POST">

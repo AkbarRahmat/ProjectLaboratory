@@ -48,11 +48,12 @@ function addUser() {
 function editUser() {
     global $db_connect, $action_state, $action_message;
     $id_user = $_POST['id_user'];
-    $nama = $_POST['nama'];
-    $jenis = $_POST['jenis'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $role = $_POST['role'];
     
     // Update
-    $sql = "UPDATE user SET nama = '$nama', jenis = '$jenis' WHERE id_user = $id_user;";
+    $sql = "UPDATE user SET username = '$username', password = '$password', role = '$role' WHERE id_user = $id_user;";
     $query = mysqli_query($db_connect, $sql);
 
     if ($query && mysqli_affected_rows($db_connect)) {

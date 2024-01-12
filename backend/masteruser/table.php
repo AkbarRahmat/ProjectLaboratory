@@ -8,7 +8,7 @@ function tableData() {
     // Get
     $sql = "SELECT * FROM user
             INNER JOIN pegawai ON user.id_pegawai = pegawai.id_pegawai
-            WHERE pegawai.status_deleted = 0";
+            WHERE user.status_deleted = 0";
     $query = mysqli_query($db_connect, $sql);
 
     $dataList = [];
