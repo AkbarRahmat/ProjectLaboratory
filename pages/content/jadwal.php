@@ -1,14 +1,18 @@
 <?php
 
-  $ds = DIRECTORY_SEPARATOR;
-  $base_dir = realpath(dirname(__FILE__)  . $ds . '..' . $ds . '..' . $ds . '..') . $ds;
-  require_once("{$base_dir}config{$ds}db.php");
-  require_once("{$base_dir}pages{$ds}core{$ds}header.php");
-  require_once("{$base_dir}backend{$ds}jadwal{$ds}table.php");
-  require_once("{$base_dir}backend{$ds}jadwal{$ds}action.php");
+$ds = DIRECTORY_SEPARATOR;
+$base_dir = realpath(dirname(__FILE__)  . $ds . '..' . $ds . '..') . $ds;
+require_once("{$base_dir}config{$ds}db.php");
+require_once("{$base_dir}backend{$ds}function.php");
+require_once("{$base_dir}backend{$ds}jadwal{$ds}table.php");
+require_once("{$base_dir}backend{$ds}jadwal{$ds}action.php");
 
+// Init
+$sidebar_selected = "jadwal";
+$pegawaiList = pegawaiData();
 ?>
-  <!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -77,51 +81,86 @@
         </div>
       </div>
 
-      <!-- Modal Crud -->
-        <!-- Edit Modal -->
-        <!-- Delete Modal -->
-       
-     <!-- End Crud Modal -->
-
       <!-- Add Modal -->
-      <!-- End Add Modal -->
+      <div class="modal fade" id="add-data" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Tambah Pegawai</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="" method="POST">
+              <div class="modal-body">
+                  <div class="my-1">
+                    <div class="form-group">
+                      <label for="nama" class="col-form-label">Nama Pegawai:</label>
+                      <select id="id_pegawai" name="id_pegawai" class="form-control">
+                        <?php foreach ($pegawaiList as $pegawai) : ?>
+                          <option value=<?= $pegawai['id_pegawai'] ?>><?= $pegawai['nama'] ?></option>
+                        <?php endforeach; ?>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="jam" class="col-form-label">Jam:</label>
+                      <select class="form-control jam-option">
+                        <option value="06:30-13:30">06:30-13:30 Pagi</option>
+                        <option value="13:30-20:30">13:30-20:30 Siang</option>
+                        <option value="09:00-16:00">09:00-16:00 Middle</option>
+                        <option value="">Lainnya..</option>
+                      </select>
+                      <div id="jam-input" class="d-none flex-row gap-2">
+                        <input type="time" class="form-control w-50" id="jam_awal" name="jam_awal" required>
+                        <input type="time" class="form-control w-50" id="jam_akhir" name="jam_akhir" required>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary" name="add-data">Simpan</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div><!-- End Add Modal -->
     </section>
 
   </main><!-- End #main -->
-<!-- End #main -->
-<script>
-  document.getElementById('month').addEventListener('change', function() {
- var month = this.value;
- var year = new Date().getFullYear();
- var lastDay = new Date(year, month, 0).getDate();
-  
- var tbody = document.querySelector('.datatable tbody');
- tbody.innerHTML = '';
-  
- for(var i = 1; i <= lastDay; i++) {
-    var tr = document.createElement('tr');
-    var tdTanggal = document.createElement('td');
-    var tdHari = document.createElement('td');
-    var tdPagi = document.createElement('td');
-    var tdSiang = document.createElement('td');
-    var tdMidle = document.createElement('td');
-    
-    tdTanggal.textContent = i;
-    tdHari.textContent = new Date(year, month-1, i).toLocaleDateString('en-US', {weekday: 'long'});
-    tdPagi.textContent = 'Pagi';
-    tdSiang.textContent = 'Siang';
-    tdMidle.textContent = 'Midle';
-    
-    tr.appendChild(tdTanggal);
-    tr.appendChild(tdHari);
-    tr.appendChild(tdPagi);
-    tr.appendChild(tdSiang);
-    tr.appendChild(tdMidle);
-    
-    tbody.appendChild(tr);
- }
-});
+
+  <script>
+    document.getElementById('month').addEventListener('change', function() {
+      var month = this.value;
+      var year = new Date().getFullYear();
+      var lastDay = new Date(year, month, 0).getDate();
+      
+      var tbody = document.querySelector('.datatable tbody');
+      tbody.innerHTML = '';
+      
+      for(var i = 1; i <= lastDay; i++) {
+        var tr = document.createElement('tr');
+        var tdTanggal = document.createElement('td');
+        var tdHari = document.createElement('td');
+        var tdPagi = document.createElement('td');
+        var tdSiang = document.createElement('td');
+        var tdMidle = document.createElement('td');
+
+        tdTanggal.textContent = i;
+        tdHari.textContent = new Date(year, month-1, i).toLocaleDateString('en-US', {weekday: 'long'});
+        tdPagi.textContent = 'Pagi';
+        tdSiang.textContent = 'Siang';
+        tdMidle.textContent = 'Midle';
+
+        tr.appendChild(tdTanggal);
+        tr.appendChild(tdHari);
+        tr.appendChild(tdPagi);
+        tr.appendChild(tdSiang);
+        tr.appendChild(tdMidle);
+        tbody.appendChild(tr);
+      }
+    }
+  );
 </script>
+</body>
 
 <?php
   require_once("{$base_dir}pages{$ds}core{$ds}footer.php");
