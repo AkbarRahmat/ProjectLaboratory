@@ -1,13 +1,16 @@
 <?php
 session_start();
-require_once "../config/db.php";
+$action_state = false;
+$action_message = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    function login(){
+        global $db_connect, $action_state, $action_message;
+
     $username = $_POST["username"];
     $password = $_POST["password"];
 
-    $username = mysqli_real_escape_string($db_connect, $username);
-    $password = mysqli_real_escape_string($db_connect, $password);
+    // $username = mysqli_real_escape_string($db_connect, $username);
+    // $password = mysqli_real_escape_string($db_connect, $password);
 
     $query = "SELECT * FROM `user` WHERE username = '$username' AND password = '$password'";
     $result = $db_connect->query($query);
@@ -16,17 +19,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user = $result->fetch_assoc();
         $_SESSION["nama"] = $user["nama"];
         $_SESSION["role"] = $user["role"];
-
-        header("Location: ../pages/content/dashboard/dashboard.php");
-        exit();
+        $action_state = true;
+        $action_message = "login berhasil";
     } else {
-        echo "<script>
-        alert('Username atau password salah!');
-        document.location='../index.php'
-        </script>";
-        
+        $action_state = false;
+        $action_message = "username atau password salah!";
     }
+    $db_connect->close();
 }
-
-$db_connect->close();
 ?>

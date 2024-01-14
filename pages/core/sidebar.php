@@ -16,12 +16,12 @@
         </a>
         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="../datashift/datashift">
+            <a href="../datashift/datashift.php">
               <i class="bi bi-circle"></i><span>Data Shift</span>
             </a>
           </li>
           <li>
-            <a href="../datapegawai/datapegawai">
+            <a href="../masteruser/table_user.php">
               <i class="bi bi-circle"></i><span>Data Pegawai</span>
             </a>
           </li>
@@ -31,7 +31,11 @@
       <!-- <li class="nav-heading">Pages</li> -->
 
       <li class="nav-item">
+<<<<<<< HEAD
+        <a class="nav-link collapsed" href="../lihatjadwal/table_jadwal.php">
+=======
         <a class="nav-link <?= $sidebar_selected == 'jadwal' ? '' : 'collapsed' ?>" href="../content/jadwal.php">
+>>>>>>> f60264634a7329605d1589981e9464fbb3e54984
           <i class="bi bi-calendar"></i>
           <span>Jadwal</span>
         </a>
