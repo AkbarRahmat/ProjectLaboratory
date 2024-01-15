@@ -9,6 +9,22 @@ require_once("{$base_dir}backend{$ds}jadwal{$ds}action.php");
 
 // Init
 $sidebar_selected = "jadwal";
+
+// Action
+if (isset($_POST['add-data'])) {
+  addJadwal();
+}
+/*elseif (isset($_POST['edit-data'])) {
+  editJadwal();
+}
+elseif (isset($_POST['delete-data'])) {
+  deleteJadwal();
+}*/
+
+if ($action_state) {
+  header("Location: jadwal.php");
+  exit;
+}
 $pegawaiList = pegawaiData();
 ?>
 
@@ -86,7 +102,7 @@ $pegawaiList = pegawaiData();
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Tambah Pegawai</h5>
+              <h5 class="modal-title">Tambah Jadwal</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="" method="POST">
@@ -108,9 +124,25 @@ $pegawaiList = pegawaiData();
                         <option value="09:00-16:00">09:00-16:00 Middle</option>
                         <option value="">Lainnya..</option>
                       </select>
-                      <div id="jam-input" class="d-none flex-row gap-2">
-                        <input type="time" class="form-control w-50" id="jam_awal" name="jam_awal" required>
-                        <input type="time" class="form-control w-50" id="jam_akhir" name="jam_akhir" required>
+                      <div class="d-none flex-row gap-2 jam-input">
+                        <input type="text" class="form-control w-50" id="jam_awal" name="jam_awal" value="00:00" required>
+                        <input type="text" class="form-control w-50" id="jam_akhir" name="jam_akhir" value="00:00" required>
+                      </div>
+                    </div>
+                    <div class="form-group w-75">
+                      <label for="tanggal" class="col-form-label">Tanggal:</label>
+                      <div class="d-flex flex-row gap-2">
+                        <select id="tanggal_hari" name="tanggal_hari" class="form-control w-25">
+                          <option value="19">19</option>
+                        </select>
+                        <select id="tanggal_bulan" name="tanggal_bulan" class="form-control w-50">
+                          <option value="01">Januari</option>
+                          <option value="02">Febuari</option>
+                        </select>
+                        <select id="tanggal_tahun" name="tanggal_tahun" class="form-control w-25">
+                          <option value="2023">2023</option>
+                          <option value="2024">2024</option>
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -127,39 +159,7 @@ $pegawaiList = pegawaiData();
 
   </main><!-- End #main -->
 
-  <script>
-    document.getElementById('month').addEventListener('change', function() {
-      var month = this.value;
-      var year = new Date().getFullYear();
-      var lastDay = new Date(year, month, 0).getDate();
-      
-      var tbody = document.querySelector('.datatable tbody');
-      tbody.innerHTML = '';
-      
-      for(var i = 1; i <= lastDay; i++) {
-        var tr = document.createElement('tr');
-        var tdTanggal = document.createElement('td');
-        var tdHari = document.createElement('td');
-        var tdPagi = document.createElement('td');
-        var tdSiang = document.createElement('td');
-        var tdMidle = document.createElement('td');
-
-        tdTanggal.textContent = i;
-        tdHari.textContent = new Date(year, month-1, i).toLocaleDateString('en-US', {weekday: 'long'});
-        tdPagi.textContent = 'Pagi';
-        tdSiang.textContent = 'Siang';
-        tdMidle.textContent = 'Midle';
-
-        tr.appendChild(tdTanggal);
-        tr.appendChild(tdHari);
-        tr.appendChild(tdPagi);
-        tr.appendChild(tdSiang);
-        tr.appendChild(tdMidle);
-        tbody.appendChild(tr);
-      }
-    }
-  );
-</script>
+  <script src="../../main.js"></script>
 </body>
 
 <?php

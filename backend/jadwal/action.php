@@ -4,6 +4,8 @@ $action_message = "";
 
 function addJadwal() {
     global $db_connect, $action_state, $action_message;
+    var_dump($_POST);
+
     $username = $_POST['username'];
     $password = $_POST['password'];
     $role = $_POST['role'];

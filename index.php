@@ -9,7 +9,7 @@ if (isset($_POST['login'])) {
 }
 
 if ($action_state) {
-  header("Location: ./pages/content/dashboard/dashboard.php");
+  header("Location: ./pages/content/dashboard.php");
 }
 ?>
 <!DOCTYPE html>
