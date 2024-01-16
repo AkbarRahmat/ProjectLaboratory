@@ -40,10 +40,7 @@ document.querySelectorAll(".jam-option").forEach(element => {
 
 // Custom Jam
 function elementCustomJam(inputElm, outputElm, parentElm) {
-
-
-    inputElm.onchange = (event) => {
-        let input = event.target.value;
+    const change = (input) => {
         input = input.split("-")
         
         if (input.length != 2) {
@@ -61,6 +58,7 @@ function elementCustomJam(inputElm, outputElm, parentElm) {
         jamAwalElm.value = input[0]
         jamAkhirElm.value = input[1]
     }
+
     change(inputElm.value)
 
     inputElm.onchange = (event) => {
