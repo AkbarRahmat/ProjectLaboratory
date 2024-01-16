@@ -79,6 +79,7 @@ $pegawaiList = pegawaiData();
               <table class="table datatable">
                 <thead>
                  <tr>
+                  <</th>
                     <th scope="col">Tanggal</th>
                     <th scope="col">Hari</th>
                     <th scope="col">Pagi</th>
@@ -87,7 +88,11 @@ $pegawaiList = pegawaiData();
                  </tr>
                 </thead>
                 <tbody>
-               
+                  <?php foreach ($pegawaiList as $no => $pegawai):?>
+                  
+                 
+                    
+                  <?php endforeach ?>
                 </tbody>
               </table>
               <!-- End Table with stripped rows -->

@@ -8,7 +8,13 @@ function addJadwal() {
     $id_pegawai = $_POST['id_pegawai'];
     $jam_awal = $_POST['jam_awal'];
     $jam_akhir = $_POST['jam_akhir'];
-    $tanggal = $_POST['tanggal_tahun'] . "-" . $_POST['tanggal_bulan'] . "-" . $_POST['tanggal_hari'];
+    $tanggal = $_POST['tanggal_hari'];
+    $bulan = $_POST['tanggal_bulan'];
+    $tahun =  $_POST['tanggal_tahun'];
+    $date = $tahun . $bulan . $tanggal;
+    
+    
+
     // Check
     $sqlc = "SELECT COUNT(*) as count FROM jadwal WHERE id_pegawai = '$id_pegawai' AND status_deleted = 0";
     $queryc = mysqli_query($db_connect, $sqlc);
@@ -21,7 +27,7 @@ function addJadwal() {
     }
     
     // Insert sift pagi
-    $sql = "INSERT INTO jadwal (id_pegawai, jam_awal, jam_akhir, tanggal) VALUES ('$id_pegawai', '$jam_awal', '$jam_akhir', '$tanggal');";
+    $sql = "INSERT INTO jadwal (id_pegawai, jam_awal, jam_akhir, tanggal) VALUES ('$id_pegawai', '$jam_awal', '$jam_akhir', '$date');";
 
     $query = mysqli_query($db_connect, $sql);
     
@@ -59,7 +65,7 @@ function deleteJadwal() {
     $id_user = $_POST['id_user'];
     
     // Deleted
-    $sql = "UPDATE user SET status_deleted = 1 WHERE id_user = $id_user;";
+    $sql = "UPDATE jadwal SET status_deleted = 1 WHERE id_user = $id_user;";
     $query = mysqli_query($db_connect, $sql);
 
     if ($query && mysqli_affected_rows($db_connect)) {
