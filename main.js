@@ -32,11 +32,30 @@ function generateMonth() {
     })
 }
 
+// Month
+(() => {
+    const parrent = document.querySelector('#month-form')
+    const select = parrent.querySelector('#month-select')
+    elementTableMonth(select, parrent)
+})()
+
+// Jam
 document.querySelectorAll(".jam-option").forEach(element => {
     const parrent = element.parentNode
     const output = parrent.querySelector(".jam-input")
     elementCustomJam(element, output, parrent);
 })
+
+// Month
+function elementTableMonth(selectElm, parrentElm) {
+    selectElm.onchange = (event) => {
+        const month = event.target.value
+        console.log(month)
+
+        const button = parrentElm.querySelector('#month-submit')
+        button.click()
+    }
+}
 
 // Custom Jam
 function elementCustomJam(inputElm, outputElm, parentElm) {

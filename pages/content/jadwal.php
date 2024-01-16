@@ -9,6 +9,14 @@ require_once("{$base_dir}backend{$ds}jadwal{$ds}action.php");
 
 // Init
 $sidebar_selected = "jadwal";
+$date_current = currentDate();
+
+// Filter
+if (isset($_POST['select-month'])) {
+  $_SESSION['month_select'] = $_POST['month'];
+  header("Location: jadwal.php");
+  exit;
+}
 
 // Action
 if (isset($_POST['add-data'])) {
@@ -25,7 +33,12 @@ if ($action_state) {
   header("Location: jadwal.php");
   exit;
 }
+
+// Data
+$year_selected = $date_current['year'];
+$month_selected = (isset($_SESSION['month_select'])) ? $_SESSION['month_select'] : $date_current['month'];
 $pegawaiList = pegawaiData();
+$jadwalList = tableData();
 ?>
 
 <!DOCTYPE html>
@@ -57,42 +70,53 @@ $pegawaiList = pegawaiData();
         <div class="card">
             <div class="card-body">
               <h5 class="card-title">Jadwal Pegawai</h5>
-              <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#add-data">Tambah data</button>
-              <div class="form-group">
-                <label for="month">Pilih Bulan</label>
-                <select class="form-control" id="month">
-                 <option value="01">Januari</option>
-                 <option value="02">Februari</option>
-                 <option value="03">Maret</option>
-                 <option value="04">April</option>
-                 <option value="05">Mei</option>
-                 <option value="06">Juni</option>
-                 <option value="07">Juli</option>
-                 <option value="08">Agustus</option>
-                 <option value="09">September</option>
-                 <option value="10">Oktober</option>
-                 <option value="11">November</option>
-                 <option value="12">Desember</option>
-                </select>
-              </div>
+              <?php if ($date_current['month'] == $month_selected): ?>
+                <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#add-data">Tambah data</button>
+              <?php endif; ?>
+              <form action="" id="month-form" method="post">
+                <div class="form-group mb-3">
+                  <label for="month">Pilih Bulan</label>
+                  <select class="form-control" id="month-select" name="month">
+                    <option <?= atOption($month_selected, "01") ?>>Januari</option>
+                    <option <?= atOption($month_selected, "02") ?>>Februari</option>
+                    <option <?= atOption($month_selected, "03") ?>>Maret</option>
+                    <option <?= atOption($month_selected, "04") ?>>April</option>
+                    <option <?= atOption($month_selected, "05") ?>>Mei</option>
+                    <option <?= atOption($month_selected, "06") ?>>Juni</option>
+                    <option <?= atOption($month_selected, "07") ?>>Juli</option>
+                    <option <?= atOption($month_selected, "08") ?>>Agustus</option>
+                    <option <?= atOption($month_selected, "09") ?>>September</option>
+                    <option <?= atOption($month_selected, "10") ?>>Oktober</option>
+                    <option <?= atOption($month_selected, "11") ?>>November</option>
+                    <option <?= atOption($month_selected, "12") ?>>Desember</option>
+                  </select>
+                  <button type="submit" class="d-none" id="month-submit" name="select-month"></button>
+                </div>
+              </form>
               <!-- Table with stripped rows -->
               <table class="table datatable">
                 <thead>
                  <tr>
-                  <</th>
+                    <th scope="col">Nama Pegawai</th>
                     <th scope="col">Tanggal</th>
                     <th scope="col">Hari</th>
-                    <th scope="col">Pagi</th>
-                    <th scope="col">Siang</th>
-                    <th scope="col">Midle</th>
+                    <th scope="col">Shift</th>
+                    <th scope="col">Aksi</th>
                  </tr>
                 </thead>
                 <tbody>
-                  <?php foreach ($pegawaiList as $no => $pegawai):?>
-                  
-                 
-                    
-                  <?php endforeach ?>
+                  <?php foreach ($jadwalList as $no => $jadwal) : ?>
+                  <tr>
+                    <td><?= $jadwal['nama'] ?></td>
+                    <td><?= $jadwal['tanggal_hari'] ?></td>
+                    <td><?= $jadwal['tanggal_namahari'] ?></td>
+                    <td><?= $jadwal['jam_awal'] . " - " . $jadwal['jam_akhir'] ?></td>
+                    <td>
+                      <button class="btn btn-warning"><i class="bi bi-pen"></i></button>
+                      <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                    </td>
+                  </tr>
+                  <?php endforeach; ?>
                 </tbody>
               </table>
               <!-- End Table with stripped rows -->

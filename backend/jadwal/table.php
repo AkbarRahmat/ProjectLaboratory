@@ -1,46 +1,59 @@
 <?php
+session_start();
 $query_state = false;
 $query_message = "";
 
-function pegawaiData() {
-    global $db_connect, $query_state, $query_message;
+function tableData() {
+    global $db_connect, $query_state, $query_message, $year_selected, $month_selected;
 
     // Get
-    $sql = "SELECT * FROM jadwal
-            WHERE jadwal.status_deleted = 0";
+    $sql = "SELECT nama, tanggal, jam_awal, jam_akhir FROM jadwal
+            INNER JOIN pegawai ON jadwal.id_pegawai = pegawai.id_pegawai
+            WHERE jadwal.status_deleted = 0 AND YEAR(tanggal) = '$year_selected'  AND MONTH(tanggal) = '$month_selected'";
     $query = mysqli_query($db_connect, $sql);
 
     $dataList = [];
     while ($data = mysqli_fetch_assoc($query)) {
-        $timestamp = strtotime($data["tanggal"]);
-        $dayEnglish = date("l", $timestamp);
+        // Tanggal
+        $date = DateTime::createFromFormat("Y-m-d", $data['tanggal']);
+        $data['tanggal_hari'] = $date->format('d');
+
+        // Jam
+        $jam_parse = explode(":", $data['jam_awal']);
+        $data['jam_awal'] = $jam_parse[0] . ":" . $jam_parse[1];
+        $jam_parse = explode(":", $data['jam_akhir']);
+        $data['jam_akhir'] = $jam_parse[0] . ":" . $jam_parse[1];
+
+        // Nama Hari
+        $dayEnglish = $date->format('l');
         switch ($dayEnglish) {
             case 'Monday':
-                $data['nama_hari'] = 'Senin';
+                $data['tanggal_namahari'] = 'Senin';
                 break;
             case 'Tuesday':
-                $data['nama_hari'] = 'Selasa';
+                $data['tanggal_namahari'] = 'Selasa';
                 break;
             case 'Wednesday':
-                $data['nama_hari'] = 'Rabu';
+                $data['tanggal_namahari'] = 'Rabu';
                 break;
             case 'Thursday':
-                $data['nama_hari'] = 'Kamis';
+                $data['tanggal_namahari'] = 'Kamis';
                 break;
             case 'Friday':
-                $data['nama_hari'] = 'Jumat';
+                $data['tanggal_namahari'] = 'Jumat';
                 break;
             case 'Saturday':
-                $data['nama_hari'] = 'Sabtu';
+                $data['tanggal_namahari'] = 'Sabtu';
                 break;
             case 'Sunday':
-                $data['nama_hari'] = 'Minggu';
+                $data['tanggal_namahari'] = 'Minggu';
                 break;
             default:
-                $data['nama_hari'] = 'Hari Tidak Valid';
+                $data['tanggal_namahari'] = 'Hari Tidak Valid';
                 break;
         }
         
+        // Data
         array_push($dataList, $data);
     }
 
@@ -49,12 +62,21 @@ function pegawaiData() {
     
     return $dataList;
 }
-/*
+
+function currentDate() {
+    $date = new DateTime();
+    return [
+        "year" => sprintf('%02d', $date->format('Y')),
+        "month" => sprintf('%02d', $date->format('m')),
+        "day" => sprintf('%02d', $date->format('d'))
+    ];
+}
+
 function pegawaiData() {
     global $db_connect, $query_state, $query_message;
 
     // Get
-    $sql = "SELECT * FROM jadwal WHERE status_deleted = 0";
+    $sql = "SELECT * FROM pegawai WHERE status_deleted = 0";
     $query = mysqli_query($db_connect, $sql);
 
     $dataList = [];
@@ -66,5 +88,5 @@ function pegawaiData() {
     $query_message = "succes";
     
     return $dataList;
-}*/
+}
 ?>
