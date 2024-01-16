@@ -4,14 +4,13 @@ $action_message = "";
 
 function addJadwal() {
     global $db_connect, $action_state, $action_message;
-    var_dump($_POST);
 
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $role = $_POST['role'];
-
+    $id_pegawai = $_POST['id_pegawai'];
+    $jam_awal = $_POST['jam_awal'];
+    $jam_akhir = $_POST['jam_akhir'];
+    $tanggal = $_POST['tanggal_tahun'] . "-" . $_POST['tanggal_bulan'] . "-" . $_POST['tanggal_hari'];
     // Check
-    $sqlc = "SELECT COUNT(*) as count FROM user WHERE username = '$username' AND status_deleted = 0";
+    $sqlc = "SELECT COUNT(*) as count FROM jadwal WHERE id_pegawai = '$id_pegawai' AND status_deleted = 0";
     $queryc = mysqli_query($db_connect, $sqlc);
     $count = mysqli_fetch_assoc($queryc)['count'];
 
@@ -21,27 +20,19 @@ function addJadwal() {
         return;
     }
     
-    // Insert Petugas
-    $sql = "INSERT INTO pegawai (username, password, role) VALUES ('$username', '$password', '$role');";
+    // Insert sift pagi
+    $sql = "INSERT INTO jadwal (id_pegawai, jam_awal, jam_akhir, tanggal) VALUES ('$id_pegawai', '$jam_awal', '$jam_akhir', '$tanggal');";
+
     $query = mysqli_query($db_connect, $sql);
-
-    if (!$query || !mysqli_affected_rows($db_connect) > 0) {
+    
+    if (!$query || mysqli_affected_rows($db_connect) <= 0) {
         $action_state = false;
-        $action_message = "fail_query";
+        $action_message = "fail_query: " . mysqli_error($db_connect);
+    } else {
+        $id_pegawai = mysqli_insert_id($db_connect);
+        $action_state = true;
+        $action_message = "success";
     }
-    $id_pegawai = mysqli_insert_id($db_connect);
-
-    // Insert User
-    $sql = "INSERT INTO user (username, password, role, id_pegawai) VALUES ('$username', '$password', '$role', '$id_pegawai')";
-    $query = mysqli_query($db_connect, $sql);
-
-    if (!$query || !mysqli_affected_rows($db_connect) > 0) {
-        $action_state = false;
-        $action_message = "fail_query";
-    }
-
-    $action_state = true;
-    $action_message = "succes";
 }
 
 function editJadwal() {
@@ -79,4 +70,5 @@ function deleteJadwal() {
         $action_message = "fail_query";
     }
 }
+
 ?>

@@ -133,7 +133,7 @@ $pegawaiList = pegawaiData();
                       <label for="tanggal" class="col-form-label">Tanggal:</label>
                       <div class="d-flex flex-row gap-2">
                         <select id="tanggal_hari" name="tanggal_hari" class="form-control w-25">
-                          <option value="19">19</option>
+                          <option value="01">01</option>
                         </select>
                         <select id="tanggal_bulan" name="tanggal_bulan" class="form-control w-50">
                           <option value="01">Januari</option>

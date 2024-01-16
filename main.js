@@ -61,4 +61,9 @@ function elementCustomJam(inputElm, outputElm, parentElm) {
         jamAwalElm.value = input[0]
         jamAkhirElm.value = input[1]
     }
+    change(inputElm.value)
+
+    inputElm.onchange = (event) => {
+        change(event.target.value)
+    }
 }

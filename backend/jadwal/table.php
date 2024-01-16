@@ -6,9 +6,9 @@ function tableData() {
     global $db_connect, $query_state, $query_message;
 
     // Get
-    $sql = "SELECT * FROM user
-            INNER JOIN pegawai ON user.id_pegawai = pegawai.id_pegawai
-            WHERE user.status_deleted = 0";
+    $sql = "SELECT * FROM jadwal
+            INNER JOIN pegawai ON jadwal.id_jadwal = pegawai.id_pegawai
+            WHERE jadwal.status_deleted = 0";
     $query = mysqli_query($db_connect, $sql);
 
     $dataList = [];
