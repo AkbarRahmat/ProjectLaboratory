@@ -9,7 +9,7 @@ $ds = DIRECTORY_SEPARATOR;
  $id = $_GET['id'];
 
  $sql = "SELECT * FROM pegawai WHERE id=$id";
- $result = mysqli_query($koneksi, $sql);
+ $result = mysqli_query($db_connect, $sql);
  
  if (mysqli_num_rows($result) > 0) {
      $row = mysqli_fetch_assoc($result);

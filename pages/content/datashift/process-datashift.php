@@ -13,7 +13,7 @@ if(isset($_POST['tambahshift'])) {
 
     $sql = "INSERT INTO shift (jam, mulai, akhir) VALUES ('$jam', '$mulai', '$akhir')";
 
-    $query = mysqli_query($koneksi, $sql);
+    $query = mysqli_query($db_connect, $sql);
 
 
     if($query) {
@@ -35,7 +35,7 @@ if(isset($_POST['edit_submit'])){
 
     $query = "UPDATE shift SET jam='$jam', mulai='$akhir', mulai='$mulai' WHERE id_jam='$id'";
 
-    if(mysqli_query($koneksi, $query)){
+    if(mysqli_query($db_connect, $query)){
         $_SESSION['message'] = "Data berhasil diedit!";
         header("location: datashift.php");
     } else {
@@ -45,11 +45,11 @@ if(isset($_POST['edit_submit'])){
 }
 
     // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> GET LIST DATA TMU <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	$QueryGetListShift = mysqli_query($koneksi, "SELECT * FROM shift");
+	$QueryGetListShift = mysqli_query($db_connect, "SELECT * FROM shift");
     
     function query($query) {
-        global $koneksi;
-        $result = mysqli_query($koneksi, $query);
+        global $db_connect;
+        $result = mysqli_query($db_connect, $query);
         $rows = [];
         while ( $row = mysqli_fetch_assoc($result) ) {
             $rows[] = $row;
@@ -58,7 +58,7 @@ if(isset($_POST['edit_submit'])){
     }
     
     function tambahshift($data) {
-        global $koneksi;
+        global $db_connect;
             $jam = htmlspecialchars($data["jam"]);
             $mulai = htmlspecialchars($data["mulai"]);
             $akhir = htmlspecialchars($data["akhir"]);
@@ -67,16 +67,16 @@ if(isset($_POST['edit_submit'])){
         VALUES
         ('', '$jam', '$mulai', '$akhir')
         ";
-    mysqli_query($koneksi, $query);
+    mysqli_query($db_connect, $query);
     
-    return mysqli_affected_rows($koneksi);
+    return mysqli_affected_rows($db_connect);
     }
     
     function hapus($id) {
-        global $koneksi;
-        mysqli_query($koneksi, "DELETE FROM shift WHERE id_jam = $id");
+        global $db_connect;
+        mysqli_query($db_connect, "DELETE FROM shift WHERE id_jam = $id");
     
-        return mysqli_affected_rows($koneksi);
+        return mysqli_affected_rows($db_connect);
     }
 
     
