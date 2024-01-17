@@ -5,12 +5,21 @@ $query_message = "";
 
 function tableData() {
     global $db_connect, $query_state, $query_message, $year_selected, $month_selected;
+    $userid = $_SESSION['userid'];
 
     // Get
-    $sql = "SELECT id_jadwal, nama, tanggal, jam_awal, jam_akhir FROM jadwal
+    if ($_SESSION['role'] == "admin") {
+        $sql = "SELECT id_jadwal, nama, tanggal, jam_awal, jam_akhir FROM jadwal
             INNER JOIN pegawai ON jadwal.id_pegawai = pegawai.id_pegawai
-            WHERE jadwal.status_deleted = 0 AND YEAR(tanggal) = '$year_selected'  AND MONTH(tanggal) = '$month_selected'
+            WHERE jadwal.status_deleted = 0 AND YEAR(tanggal) = '$year_selected' AND MONTH(tanggal) = '$month_selected'
             ORDER BY tanggal, DAY(tanggal)";
+    } else {
+        $sql = "SELECT id_jadwal, nama, tanggal, jam_awal, jam_akhir FROM jadwal
+            INNER JOIN pegawai ON jadwal.id_pegawai = pegawai.id_pegawai
+            WHERE jadwal.status_deleted = 0 AND YEAR(tanggal) = '$year_selected' AND MONTH(tanggal) = '$month_selected' AND pegawai.id_pegawai = '$userid'
+            ORDER BY tanggal, DAY(tanggal)";
+    }
+
     $query = mysqli_query($db_connect, $sql);
 
     $dataList = [];

@@ -1,6 +1,7 @@
 <?php
 $ds = DIRECTORY_SEPARATOR;
 $base_dir = realpath(dirname(__FILE__)  . $ds . '..' . $ds . '..' . $ds) . $ds;
+require_once("{$base_dir}backend{$ds}dashboard.php");
 
 // Init
 $sidebar_selected = "dashboard";

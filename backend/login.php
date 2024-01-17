@@ -17,7 +17,8 @@ $action_message = "";
 
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
-        $_SESSION["nama"] = $user["nama"];
+        $_SESSION["username"] = $user["username"];
+        $_SESSION["userid"] = $user["id_user"];
         $_SESSION["role"] = $user["role"];
         $action_state = true;
         $action_message = "login berhasil";

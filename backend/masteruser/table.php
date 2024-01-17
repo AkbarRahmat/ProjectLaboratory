@@ -1,4 +1,5 @@
 <?php
+session_start();
 $query_state = false;
 $query_message = "";
 

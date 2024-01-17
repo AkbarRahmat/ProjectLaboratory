@@ -17,12 +17,14 @@
         </a>
       </li><!-- End Profile Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link <?= $sidebar_selected == 'masteruser' ? '' : 'collapsed' ?>" href="../content/masteruser.php">
-          <i class="bi bi-calendar"></i>
-          <span>Kelola Pegawai</span>
-        </a>
-      </li><!-- End Profile Page Nav -->
+      <?php if ($_SESSION['role'] == "admin") :?>
+        <li class="nav-item">
+          <a class="nav-link <?= $sidebar_selected == 'masteruser' ? '' : 'collapsed' ?>" href="../content/masteruser.php">
+            <i class="bi bi-calendar"></i>
+            <span>Kelola Pegawai</span>
+          </a>
+        </li><!-- End Profile Page Nav -->
+      <?php endif; ?>
 
     </ul>
 

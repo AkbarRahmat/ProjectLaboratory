@@ -37,6 +37,7 @@ if ($action_state) {
 // Data
 $year_selected = $date_current['year'];
 $month_selected = (isset($_SESSION['month_select'])) ? $_SESSION['month_select'] : $date_current['month'];
+$day_selected = $date_current['day'];
 $pegawaiList = pegawaiData();
 $jadwalList = tableData();
 ?>
@@ -72,7 +73,7 @@ $jadwalList = tableData();
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Jadwal Pegawai</h5>
-              <?php if ($date_current['month'] == $month_selected): ?>
+              <?php if ($_SESSION['role'] == "admin" && $date_current['month'] == $month_selected): ?>
                 <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
                   data-bs-target="#add-data">Tambah data</button>
               <?php endif; ?>
@@ -104,7 +105,9 @@ $jadwalList = tableData();
                     <th scope="col">Tanggal</th>
                     <th scope="col">Hari</th>
                     <th scope="col">Shift</th>
-                    <th scope="col">Aksi</th>
+                    <?php if ($_SESSION['role'] == "admin") :?>
+                      <th scope="col">Aksi</th>
+                    <?php endif;?>
                   </tr>
                 </thead>
                 <tbody>
@@ -122,12 +125,14 @@ $jadwalList = tableData();
                       <td>
                         <?= $jadwal['jam_awal'] . " - " . $jadwal['jam_akhir'] ?>
                       </td>
-                      <td>
-                        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit-data-<?= $no ?>"><i
-                            class="bi bi-pen"></i></button>
-                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-data-<?= $no ?>"><i
-                            class="bi bi-trash"></i></button>
-                      </td>
+                      <?php if ($_SESSION['role'] == "admin") :?>
+                        <td>
+                          <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit-data-<?= $no ?>"><i
+                              class="bi bi-pen"></i></button>
+                          <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-data-<?= $no ?>"><i
+                              class="bi bi-trash"></i></button>
+                        </td>
+                      <?php endif;?>
                     </tr>
                   <?php endforeach; ?>
                 </tbody>
@@ -147,7 +152,7 @@ $jadwalList = tableData();
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Edit User</h5>
+                <h5 class="modal-title">Edit Jadwal</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <form action="" method="POST">
@@ -156,11 +161,13 @@ $jadwalList = tableData();
                     <input type="hidden" class="form-control" id="id_jadwal" name="id_jadwal" value="<?= $jadwal['id_jadwal'] ?>">
                   </div>
                   <div class="form-group">
-                    <div class="d-flex flex-row jam-input p2">
-                      <label for="jam_awal">Jam awal:</label>
-                      <input type="text" class="form-control w-50" id="jam_awal" name="jam_awal" value="<?= $jadwal['jam_awal'] ?>"
-                        required>
-                      <label for="jam_akhir">Jam akhir:</label>
+                    <label for="nama" class="col-form-label">Nama Pegawai:</label>
+                    <input type="text" class="form-control" id="nama" name="nama" value="<?= $jadwal['nama'] ?>" disabled>
+                  </div>
+                  <div class="form-group">
+                  <label for="jam_awal" class="col-form-label">Jam:</label>
+                    <div class="d-flex flex-row gap-2">
+                      <input type="text" class="form-control w-50" id="jam_awal" name="jam_awal" value="<?= $jadwal['jam_awal'] ?>" required>
                       <input type="text" class="form-control w-50" id="jam_akhir" name="jam_akhir" value="<?= $jadwal['jam_akhir'] ?>" required>
                     </div>
                   </div>
@@ -201,6 +208,7 @@ $jadwalList = tableData();
         </div>
       <?php endforeach; ?>
       <!-- End Crud Modal -->
+
       <!-- Add Modal -->
       <div class="modal fade" id="add-data" tabindex="-1">
         <div class="modal-dialog">
@@ -238,54 +246,54 @@ $jadwalList = tableData();
                     <label for="tanggal" class="col-form-label">Tanggal:</label>
                     <div class="d-flex flex-row gap-2">
                       <select id="tanggal_hari" name="tanggal_hari" class="form-control w-25">
-                        <option value="01">01</option>
-                        <option value="02">02</option>
-                        <option value="03">03</option>
-                        <option value="04">04</option>
-                        <option value="05">05</option>
-                        <option value="06">06</option>
-                        <option value="07">07</option>
-                        <option value="08">08</option>
-                        <option value="09">09</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                        <option value="16">16</option>
-                        <option value="17">17</option>
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>
-                        <option value="21">21</option>
-                        <option value="22">22</option>
-                        <option value="23">23</option>
-                        <option value="24">24</option>
-                        <option value="25">25</option>
-                        <option value="26">26</option>
-                        <option value="27">27</option>
-                        <option value="28">28</option>
-                        <option value="29">29</option>
-                        <option value="30">30</option>
-                        <option value="31">31</option>
+                        <option <?= atOption($day_selected, "01") ?>>01</option>
+                        <option <?= atOption($day_selected, "02") ?>>02</option>
+                        <option <?= atOption($day_selected, "03") ?>>03</option>
+                        <option <?= atOption($day_selected, "04") ?>>04</option>
+                        <option <?= atOption($day_selected, "05") ?>>05</option>
+                        <option <?= atOption($day_selected, "06") ?>>06</option>
+                        <option <?= atOption($day_selected, "07") ?>>07</option>
+                        <option <?= atOption($day_selected, "08") ?>>08</option>
+                        <option <?= atOption($day_selected, "09") ?>>09</option>
+                        <option <?= atOption($day_selected, "10") ?>>10</option>
+                        <option <?= atOption($day_selected, "11") ?>>11</option>
+                        <option <?= atOption($day_selected, "12") ?>>12</option>
+                        <option <?= atOption($day_selected, "13") ?>>13</option>
+                        <option <?= atOption($day_selected, "14") ?>>14</option>
+                        <option <?= atOption($day_selected, "15") ?>>15</option>
+                        <option <?= atOption($day_selected, "16") ?>>16</option>
+                        <option <?= atOption($day_selected, "17") ?>>17</option>
+                        <option <?= atOption($day_selected, "18") ?>>18</option>
+                        <option <?= atOption($day_selected, "19") ?>>19</option>
+                        <option <?= atOption($day_selected, "20") ?>>20</option>
+                        <option <?= atOption($day_selected, "21") ?>>21</option>
+                        <option <?= atOption($day_selected, "22") ?>>22</option>
+                        <option <?= atOption($day_selected, "23") ?>>23</option>
+                        <option <?= atOption($day_selected, "24") ?>>24</option>
+                        <option <?= atOption($day_selected, "25") ?>>25</option>
+                        <option <?= atOption($day_selected, "26") ?>>26</option>
+                        <option <?= atOption($day_selected, "27") ?>>27</option>
+                        <option <?= atOption($day_selected, "28") ?>>28</option>
+                        <option <?= atOption($day_selected, "29") ?>>29</option>
+                        <option <?= atOption($day_selected, "30") ?>>30</option>
+                        <option <?= atOption($day_selected, "31") ?>>31</option>
                       </select>
-                      <select id="tanggal_bulan" name="tanggal_bulan" class="form-control w-50">
-                        <option value="01">Januari</option>
-                        <option value="02">Febuari</option>
-                        <option value="03">Maret</option>
-                        <option value="04">April</option>
-                        <option value="05">Mei</option>
-                        <option value="06">Juni</option>
-                        <option value="07">Juli</option>
-                        <option value="08">Agustus</option>
-                        <option value="09">September</option>
-                        <option value="10">Oktober</option>
-                        <option value="11">November</option>
-                        <option value="12">Desember</option>
+                      <select id="tanggal_bulan" name="tanggal_bulan" class="form-control w-50" disabled>
+                        <option <?= atOption($month_selected, "01") ?>>Januari</option>
+                        <option <?= atOption($month_selected, "02") ?>>Februari</option>
+                        <option <?= atOption($month_selected, "03") ?>>Maret</option>
+                        <option <?= atOption($month_selected, "04") ?>>April</option>
+                        <option <?= atOption($month_selected, "05") ?>>Mei</option>
+                        <option <?= atOption($month_selected, "06") ?>>Juni</option>
+                        <option <?= atOption($month_selected, "07") ?>>Juli</option>
+                        <option <?= atOption($month_selected, "08") ?>>Agustus</option>
+                        <option <?= atOption($month_selected, "09") ?>>September</option>
+                        <option <?= atOption($month_selected, "10") ?>>Oktober</option>
+                        <option <?= atOption($month_selected, "11") ?>>November</option>
+                        <option <?= atOption($month_selected, "12") ?>>Desember</option>
                       </select>
-                      <select id="tanggal_tahun" name="tanggal_tahun" class="form-control w-25">
-                        <option value="2024">2024</option>
+                      <select id="tanggal_tahun" name="tanggal_tahun" class="form-control w-25" disabled>
+                        <option value="<?= $year_selected ?>"><?= $year_selected ?></option>
                       </select>
                     </div>
                   </div>

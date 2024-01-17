@@ -112,7 +112,7 @@ $userList = tableData();
                     </div>
                     <div class="form-group">
                       <label for="password" class="col-form-label">Password:</label>
-                      <input type="password" class="form-control" id="password" name="password" value="<?= $user['password'] ?>" required>
+                      <input type="text" class="form-control" id="password" name="password" value="<?= $user['password'] ?>" required>
                     </div>
                     <div class="form-group">
                       <label for="role" class="col-form-label">Role:</label>
