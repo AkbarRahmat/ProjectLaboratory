@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3307
--- Generation Time: Jan 17, 2024 at 06:47 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: 127.0.0.1:3306
+-- Generation Time: Jan 17, 2024 at 06:53 AM
+-- Server version: 10.11.6-MariaDB-1:10.11.6+maria~ubu2204
+-- PHP Version: 8.1.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `kaef`
+-- Database: `labkf`
 --
 
 -- --------------------------------------------------------
@@ -355,7 +355,7 @@ CREATE TABLE `user` (
   `id_pegawai` int(11) NOT NULL,
   `username` varchar(150) NOT NULL,
   `password` varchar(150) NOT NULL,
-  `role` enum('user','admin','admin_super') NOT NULL DEFAULT 'user',
+  `role` enum('user','admin') NOT NULL DEFAULT 'user',
   `status_deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
