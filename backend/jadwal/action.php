@@ -3,14 +3,14 @@ $action_state = false;
 $action_message = "";
 
 function addJadwal() {
-    global $db_connect, $action_state, $action_message;
+    global $db_connect, $action_state, $action_message, $year_selected, $month_selected;
 
     $id_pegawai = $_POST['id_pegawai'];
     $jam_awal = $_POST['jam_awal'];
     $jam_akhir = $_POST['jam_akhir'];
     $hari = $_POST['tanggal_hari'];
-    $bulan = $_POST['tanggal_bulan'];
-    $tahun =  $_POST['tanggal_tahun'];
+    $bulan = $month_selected;
+    $tahun = $year_selected;
     $date = $tahun . "-" . $bulan . "-" . $hari;
     
     // Insert sift pagi

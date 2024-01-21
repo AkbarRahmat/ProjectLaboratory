@@ -10,6 +10,9 @@ require_once("{$base_dir}backend{$ds}jadwal{$ds}action.php");
 // Init
 $sidebar_selected = "jadwal";
 $date_current = currentDate();
+$year_selected = $date_current['year'];
+$month_selected = (isset($_SESSION['month_select'])) ? $_SESSION['month_select'] : $date_current['month'];
+$day_selected = $date_current['day'];
 
 // Filter
 if (isset($_POST['select-month'])) {
@@ -35,9 +38,6 @@ if ($action_state) {
 }
 
 // Data
-$year_selected = $date_current['year'];
-$month_selected = (isset($_SESSION['month_select'])) ? $_SESSION['month_select'] : $date_current['month'];
-$day_selected = $date_current['day'];
 $pegawaiList = pegawaiData();
 $jadwalList = tableData();
 ?>
@@ -50,7 +50,9 @@ $jadwalList = tableData();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 </head>
-
+<style>
+@media screen and (max-width: 600px) { table { display: block; overflow-x: auto; } } 
+</style>
 <body>
   <?php require_once("{$base_dir}pages{$ds}core{$ds}header.php"); ?>
 

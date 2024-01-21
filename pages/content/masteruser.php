@@ -35,6 +35,9 @@ $userList = tableData();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 </head>
+<style>
+@media screen and (max-width: 600px) { table { display: block; overflow-x: auto; } } 
+</style>
 <body>
   <?php require_once("{$base_dir}pages{$ds}core{$ds}header.php");?>
 
@@ -52,7 +55,7 @@ $userList = tableData();
     <section class="section">
       <div class="row">
         <div class="col-lg-12">
-
+        <div class="container">
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Data Tabel Pegawai</h5>
@@ -86,7 +89,7 @@ $userList = tableData();
 
             </div>
           </div>
-
+          </div>
         </div>
       </div>
 
@@ -119,7 +122,6 @@ $userList = tableData();
                       <select id="role" name="role" class="form-control">
                           <option <?= atOption($user['role'], "user") ?>>User</option>
                           <option <?= atOption($user['role'], "admin") ?>>Admin</option>
-                          <option <?= atOption($user['role'], "admin_super") ?>>Admin Super</option>
                       </select>
                     </div>
                 </div>
